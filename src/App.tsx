@@ -324,8 +324,8 @@ function RevealCard({
     const px = (event.clientX - rect.left) / rect.width
     const py = (event.clientY - rect.top) / rect.height
 
-    const rotateY = (px - 0.5) * 14
-    const rotateX = (0.5 - py) * 14
+    const rotateY = (px - 0.5) * 18
+    const rotateX = (0.5 - py) * 18
     setTilt({ x: rotateX, y: rotateY })
   }
 
@@ -337,22 +337,26 @@ function RevealCard({
       className={className}
       onPointerMove={handlePointerMove}
       onPointerLeave={resetTilt}
+      onPointerEnter={handlePointerMove}
       style={{
         opacity: visible ? 1 : 0,
         transform: visible
-          ? `translateY(0) scale(1) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`
-          : 'translateY(28px) scale(0.985) rotateX(0deg) rotateY(0deg)',
+          ? `translate3d(0,0,0) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(1,1,1)`
+          : 'translate3d(0,28px,0) rotateX(0deg) rotateY(0deg) scale3d(0.985,0.985,1)',
         filter: visible ? 'blur(0)' : 'blur(4px)',
-        transition: 'opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease, box-shadow 0.25s ease',
+        transition: 'opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.7s ease, box-shadow 0.25s ease',
         transitionDelay: `${delay}ms`,
         transformStyle: 'preserve-3d',
         boxShadow: visible
-          ? `0 22px 40px rgba(0,0,0,0.16), ${tilt.y * 2}px ${tilt.x * -2}px 24px rgba(255, 82, 82, 0.12)`
+          ? `0 18px 38px rgba(0,0,0,0.25), ${Math.max(-12, Math.min(12, tilt.y * 1.5))}px ${Math.max(-12, Math.min(12, tilt.x * -1.5))}px 30px rgba(255, 78, 78, 0.16)`
           : '0 0 0 rgba(0,0,0,0)',
         perspective: '1200px',
         background: 'linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))',
         position: 'relative',
         overflow: 'hidden',
+        border: '1px solid rgba(255,255,255,0.08)',
+        willChange: 'transform, box-shadow, filter',
+        cursor: 'default',
       }}
     >
       <div
@@ -360,10 +364,10 @@ function RevealCard({
         style={{
           position: 'absolute',
           inset: 0,
-          background: `linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.16) 50%, transparent 70%)`,
-          transform: `translateX(${tilt.y * 4}px) translateY(${tilt.x * 4}px)`,
-          opacity: Math.abs(tilt.x) + Math.abs(tilt.y) > 0 ? 0.7 : 0,
-          transition: 'opacity 0.2s ease, transform 0.2s ease',
+          background: `linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.18) 48%, rgba(255,255,255,0.04) 52%, transparent 72%)`,
+          transform: `translate3d(${tilt.y * 3}px, ${tilt.x * 3}px, 18px) scale(1.2)`,
+          opacity: Math.abs(tilt.x) + Math.abs(tilt.y) > 0 ? 0.9 : 0,
+          transition: 'opacity 0.25s ease, transform 0.25s ease',
           pointerEvents: 'none',
         }}
       />
