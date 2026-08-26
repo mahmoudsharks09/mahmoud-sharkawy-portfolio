@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useTypewriter } from './hooks/useTypewriter'
 
 const NAV_LINKS = [
@@ -284,6 +284,57 @@ function SectionTitle({ title }: { title: string }) {
   )
 }
 
+function RevealCard({
+  children,
+  className = '',
+  delay = 0,
+}: {
+  children: ReactNode
+  className?: string
+  delay?: number
+}) {
+  const ref = useRef<HTMLDivElement | null>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const node = ref.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const timeout = window.setTimeout(() => setVisible(true), delay)
+          observer.unobserve(node)
+          return () => window.clearTimeout(timeout)
+        }
+      },
+      {
+        threshold: 0.15,
+        rootMargin: '0px 0px -30px 0px',
+      },
+    )
+
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [delay])
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0) scale(1)' : 'translateY(28px) scale(0.985)',
+        filter: visible ? 'blur(0)' : 'blur(4px)',
+        transition: 'opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease',
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [textActive, setTextActive] = useState(false)
@@ -345,7 +396,7 @@ function App() {
           <div className="mx-auto max-w-6xl">
             <SectionTitle title="About me" />
             <div className="grid gap-8 md:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={80}>
                 <h3 className="text-xl font-medium mb-4 text-white">Contact</h3>
                 <ul className="space-y-3 text-[15px] text-white/80">
                   {CONTACT_INFO.map((item) => (
@@ -366,9 +417,9 @@ function App() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </RevealCard>
 
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={140}>
                 <h3 className="text-xl font-medium mb-4 text-white">Education</h3>
                 <ul className="space-y-3 text-[15px] text-white/80">
                   {EDUCATION_INFO.map((item) => (
@@ -378,7 +429,7 @@ function App() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </RevealCard>
             </div>
           </div>
         </section>
@@ -387,38 +438,38 @@ function App() {
           <div className="mx-auto max-w-6xl">
             <SectionTitle title="Programming & technical skills" />
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={80}>
                 <h3 className="text-lg font-medium mb-4 text-white">Languages</h3>
                 <ul className="space-y-2 text-white/80">
                   {SKILLS.languages.map((skill) => (
                     <li key={skill}>• {skill}</li>
                   ))}
                 </ul>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              </RevealCard>
+              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={120}>
                 <h3 className="text-lg font-medium mb-4 text-white">Frameworks / Technologies</h3>
                 <ul className="space-y-2 text-white/80">
                   {SKILLS.frameworks.map((skill) => (
                     <li key={skill}>• {skill}</li>
                   ))}
                 </ul>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              </RevealCard>
+              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={160}>
                 <h3 className="text-lg font-medium mb-4 text-white">Tools</h3>
                 <ul className="space-y-2 text-white/80">
                   {SKILLS.tools.map((skill) => (
                     <li key={skill}>• {skill}</li>
                   ))}
                 </ul>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              </RevealCard>
+              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={200}>
                 <h3 className="text-lg font-medium mb-4 text-white">Databases</h3>
                 <ul className="space-y-2 text-white/80">
                   {SKILLS.databases.map((skill) => (
                     <li key={skill}>• {skill}</li>
                   ))}
                 </ul>
-              </div>
+              </RevealCard>
             </div>
           </div>
         </section>
@@ -426,7 +477,7 @@ function App() {
         <section id="experience" className="px-5 sm:px-8 md:px-10 pb-20">
           <div className="mx-auto max-w-6xl">
             <SectionTitle title="Experience" />
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8">
+            <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8" delay={100}>
               <ul className="space-y-3 text-[16px] text-white/80">
                 {EXPERIENCE_ITEMS.map((item) => (
                   <li key={item} className="flex items-start gap-3">
@@ -435,7 +486,7 @@ function App() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </RevealCard>
           </div>
         </section>
 
@@ -443,12 +494,12 @@ function App() {
           <div className="mx-auto max-w-6xl">
             <SectionTitle title="Certifications" />
             <div className="grid gap-6 md:grid-cols-2">
-              {CERTIFICATIONS.map((item) => (
-                <div key={item.name} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              {CERTIFICATIONS.map((item, index) => (
+                <RevealCard key={item.name} className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={80 + index * 70}>
                   <p className="text-2xl text-white font-medium mb-2">{item.name}</p>
                   <p className="text-white/70">Organization: {item.organization}</p>
                   <p className="text-white/70">Year: {item.year}</p>
-                </div>
+                </RevealCard>
               ))}
             </div>
           </div>
@@ -457,48 +508,55 @@ function App() {
         <section id="activities" className="px-5 sm:px-8 md:px-10 pb-20">
           <div className="mx-auto max-w-6xl">
             <SectionTitle title="Activities" />
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={100}>
               <ul className="space-y-3 text-white/80">
                 {ACTIVITIES.map((item) => (
                   <li key={item}>• {item}</li>
                 ))}
               </ul>
-            </div>
+            </RevealCard>
           </div>
         </section>
 
         <section id="languages" className="px-5 sm:px-8 md:px-10 pb-20">
           <div className="mx-auto max-w-6xl">
             <SectionTitle title="Languages" />
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={100}>
               <ul className="space-y-3 text-white/80">
                 {LANGUAGES.map((item) => (
                   <li key={item}>• {item}</li>
                 ))}
               </ul>
-            </div>
+            </RevealCard>
           </div>
         </section>
 
         <section id="career" className="px-5 sm:px-8 md:px-10 pb-20">
           <div className="mx-auto max-w-6xl">
             <SectionTitle title="Career target" />
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+            <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={100}>
               <div className="flex flex-wrap gap-3">
-                {CAREER_TARGETS.map((item) => (
-                  <span key={item} className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/85">
+                {CAREER_TARGETS.map((item, index) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/85"
+                    style={{
+                      transform: 'translateY(0)',
+                      transitionDelay: `${100 + index * 70}ms`,
+                    }}
+                  >
                     {item}
                   </span>
                 ))}
               </div>
-            </div>
+            </RevealCard>
           </div>
         </section>
 
         <section id="contact" className="px-5 sm:px-8 md:px-10 pb-24">
           <div className="mx-auto max-w-6xl">
             <SectionTitle title="Contact" />
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between" delay={100}>
               <div>
                 <p className="text-2xl font-medium text-white">Mahmoud Sharkawy</p>
                 <p className="text-white/70">Frontend developer • software engineering student</p>
@@ -519,7 +577,7 @@ function App() {
                   LinkedIn
                 </a>
               </div>
-            </div>
+            </RevealCard>
           </div>
         </section>
       </main>
