@@ -295,6 +295,7 @@ function RevealCard({
 }) {
   const ref = useRef<HTMLDivElement | null>(null)
   const [visible, setVisible] = useState(false)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     const node = ref.current
@@ -318,18 +319,54 @@ function RevealCard({
     return () => observer.disconnect()
   }, [delay])
 
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    const px = (event.clientX - rect.left) / rect.width
+    const py = (event.clientY - rect.top) / rect.height
+
+    const rotateY = (px - 0.5) * 14
+    const rotateX = (0.5 - py) * 14
+    setTilt({ x: rotateX, y: rotateY })
+  }
+
+  const resetTilt = () => setTilt({ x: 0, y: 0 })
+
   return (
     <div
       ref={ref}
       className={className}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetTilt}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0) scale(1)' : 'translateY(28px) scale(0.985)',
+        transform: visible
+          ? `translateY(0) scale(1) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`
+          : 'translateY(28px) scale(0.985) rotateX(0deg) rotateY(0deg)',
         filter: visible ? 'blur(0)' : 'blur(4px)',
-        transition: 'opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease',
+        transition: 'opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease, box-shadow 0.25s ease',
         transitionDelay: `${delay}ms`,
+        transformStyle: 'preserve-3d',
+        boxShadow: visible
+          ? `0 22px 40px rgba(0,0,0,0.16), ${tilt.y * 2}px ${tilt.x * -2}px 24px rgba(255, 82, 82, 0.12)`
+          : '0 0 0 rgba(0,0,0,0)',
+        perspective: '1200px',
+        background: 'linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: `linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.16) 50%, transparent 70%)`,
+          transform: `translateX(${tilt.y * 4}px) translateY(${tilt.x * 4}px)`,
+          opacity: Math.abs(tilt.x) + Math.abs(tilt.y) > 0 ? 0.7 : 0,
+          transition: 'opacity 0.2s ease, transform 0.2s ease',
+          pointerEvents: 'none',
+        }}
+      />
       {children}
     </div>
   )
