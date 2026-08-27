@@ -346,7 +346,7 @@ function Contact() {
         </div>
       </div>
       <div className="contact-details">
-        {CONTACT_INFO.slice(2, 4).map((item) => (
+        {CONTACT_INFO.slice(1, 4).map((item) => (
           <div key={item.label}><span>{item.label.toUpperCase()}</span><strong>{item.value}</strong></div>
         ))}
         <div><span>TARGET</span><strong>{CAREER_TARGETS[0]}</strong></div>
