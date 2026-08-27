@@ -140,33 +140,6 @@ function Navbar({ menuOpen, onToggleMenu }: { menuOpen: boolean; onToggleMenu: (
   )
 }
 
-function Cursor() {
-  const dot = useRef<HTMLDivElement>(null)
-  const ring = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const move = (event: PointerEvent) => {
-      document.documentElement.style.setProperty('--cursor-x', `${event.clientX}px`)
-      document.documentElement.style.setProperty('--cursor-y', `${event.clientY}px`)
-      if (dot.current) {
-        dot.current.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`
-      }
-      if (ring.current) {
-        ring.current.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`
-      }
-    }
-    window.addEventListener('pointermove', move, { passive: true })
-    return () => window.removeEventListener('pointermove', move)
-  }, [])
-
-  return (
-    <>
-      <div className="cursor-dot" ref={dot} />
-      <div className="cursor-ring" ref={ring} />
-    </>
-  )
-}
-
 function Hero() {
   const { displayed, done } = useTypewriter(
     'I turn ideas into fast, thoughtful digital experiences.',
@@ -394,26 +367,15 @@ function Footer() {
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [progress, setProgress] = useState(0)
-  const [mouse, setMouse] = useState({ x: 50, y: 50 })
 
   useEffect(() => {
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight
       setProgress(max > 0 ? window.scrollY / max : 0)
     }
-    const onMove = (event: PointerEvent) => {
-      setMouse({
-        x: (event.clientX / window.innerWidth) * 100,
-        y: (event.clientY / window.innerHeight) * 100,
-      })
-    }
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('pointermove', onMove, { passive: true })
     onScroll()
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('pointermove', onMove)
-    }
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
@@ -431,15 +393,7 @@ function App() {
   }, [])
 
   return (
-    <div
-      className="app"
-      style={{
-        '--mouse-x': `${mouse.x}%`,
-        '--mouse-y': `${mouse.y}%`,
-      } as React.CSSProperties}
-    >
-      <Cursor />
-      <div className="pointer-glow" />
+    <div className="app">
       <div className="scroll-progress" style={{ transform: `scaleX(${progress})` }} />
       <Navbar menuOpen={menuOpen} onToggleMenu={() => setMenuOpen((value) => !value)} />
       <main>

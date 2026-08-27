@@ -9,8 +9,6 @@
   --accent-2: #7c3aed;
   --font-heading: 'HelveticaNowDisplay-Medium', 'Helvetica Neue', Arial, sans-serif;
   --font-body: 'HelveticaNowDisplayW01-Rg', 'Helvetica Neue', Arial, sans-serif;
-  --cursor-x: 50vw;
-  --cursor-y: 50vh;
 }
 
 * { box-sizing: border-box; }
@@ -29,10 +27,10 @@ body {
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
-  cursor: none;
+  cursor: default;
 }
 
-a, button { cursor: none; }
+a, button { cursor: pointer; }
 
 button, input { font: inherit; }
 
@@ -60,15 +58,6 @@ button, input { font: inherit; }
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
 }
 
-.pointer-glow {
-  position: fixed;
-  z-index: 1;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(420px circle at var(--mouse-x) var(--mouse-y), rgba(168,85,247,.10), transparent 65%);
-  transition: background .12s linear;
-}
-
 .scroll-progress {
   position: fixed;
   z-index: 100;
@@ -78,31 +67,6 @@ button, input { font: inherit; }
   height: 2px;
   transform-origin: left;
   background: linear-gradient(90deg, #fff, var(--accent), #fff);
-}
-
-.cursor-dot,
-.cursor-ring {
-  position: fixed;
-  left: -7px;
-  top: -7px;
-  width: 14px;
-  height: 14px;
-  z-index: 200;
-  pointer-events: none;
-  border-radius: 50%;
-  mix-blend-mode: difference;
-  background: #fff;
-  will-change: transform;
-}
-
-.cursor-ring {
-  width: 34px;
-  height: 34px;
-  left: -17px;
-  top: -17px;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,.65);
-  transition: width .25s ease, height .25s ease, border-color .25s ease;
 }
 
 .nav {
@@ -714,7 +678,6 @@ footer a { font-size: 9px; }
 
 @media (hover: none), (pointer: coarse) {
   body, a, button { cursor: auto; }
-  .cursor-dot, .cursor-ring { display: none; }
 }
 
 @media (max-width: 900px) {
