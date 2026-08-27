@@ -31,7 +31,7 @@ const EDUCATION_INFO = [
 
 const SKILLS = {
   languages: ['Java', 'Python', 'C / C++', 'JavaScript', 'HTML / CSS'],
-  frameworks: ['React', 'Flutter', 'Spring Boot', 'Node.js'],
+  frameworks: ['React', 'Node.js'],
   tools: ['Git / GitHub', 'VS Code', 'IntelliJ', 'Figma'],
   databases: ['MySQL'],
 }
@@ -230,7 +230,7 @@ function About() {
       <div className="about-layout">
         <div className="about-statement reveal">
           <p>I'm a <strong>Software Engineering student</strong> who enjoys moving between interface, logic and product thinking.</p>
-          <p>I build with React and Flutter on the front, and Spring Boot / Node.js on the back. My goal isn't just to make things work — it's to make them <strong>feel intentional.</strong></p>
+          <p>I build with React on the front, and Node.js on the back. My goal isn't just to make things work — it's to make them <strong>feel intentional.</strong></p>
         </div>
         <TiltCard className="info-card reveal">
           <div className="card-glow" />
