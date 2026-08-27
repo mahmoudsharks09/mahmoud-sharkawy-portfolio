@@ -1,32 +1,39 @@
-# React + TypeScript + Vite
+# Mahmoud Sharkawy — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A recruiter-focused React portfolio with a dark editorial visual system and mouse-reactive interactions.
 
-Currently, two official plugins are available:
+## What changed
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Mouse-following spotlight that reacts across the entire page.
+- Custom desktop cursor + trailing ring.
+- Magnetic CTA interactions.
+- 3D tilt cards that follow the pointer.
+- Scroll progress indicator.
+- Animated hero grid, orbital glow and ambient motion.
+- Typewriter hero copy.
+- IntersectionObserver reveal animations.
+- Responsive mobile navigation.
+- Recruiter-focused hierarchy: identity → stack → experience → education → contact.
+- Accessible links/buttons and touch-device fallbacks.
+- No new runtime dependencies.
 
-## React Compiler
+## Run locally
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Production build
+
+```bash
+npm run build
+npm run preview
+```
+
+> The supplied archive contained an incomplete `node_modules` install, so `node_modules` is intentionally excluded from this edited source archive. Run `npm install` before building locally.
+
+## Main files
+
+- `src/App.tsx` — portfolio UI and interactions
+- `src/index.css` — visual system, responsive layout and animations

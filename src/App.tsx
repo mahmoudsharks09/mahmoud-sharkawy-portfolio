@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useTypewriter } from './hooks/useTypewriter'
+import './index.css'
 
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
@@ -8,620 +9,448 @@ const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ]
 
-const PILL_LABELS = [
-  'Frontend developer',
-  'Seeking internships',
-  'Software engineering student',
-  'React & Flutter',
-]
+const PILL_LABELS = ['Frontend', 'React', 'Flutter', 'Spring Boot']
 
 const EMAIL = 'mahmoud12bn5@gmail.com'
+const LINKEDIN = 'https://www.linkedin.com/in/mahmoud-sharkawy-bb1561249'
 
 const CONTACT_INFO = [
   { label: 'Full name', value: 'Mahmoud Sharkawy' },
-  { label: 'Phone number', value: '01095098055' },
-  { label: 'Professional email', value: 'mahmoud12bn5@gmail.com' },
-  { label: 'City', value: 'Cairo, Egypt' },
-  { label: 'LinkedIn', value: 'linkedin.com/in/mahmoud-sharkawy-bb1561249' },
+  { label: 'Phone', value: '01095098055' },
+  { label: 'Email', value: EMAIL },
+  { label: 'Based in', value: 'Cairo, Egypt' },
 ]
 
 const EDUCATION_INFO = [
-  { label: 'University', value: 'Arab Academy for Science, Technology & Maritime Transport (AASTMT)' },
+  { label: 'University', value: 'AASTMT' },
   { label: 'Major', value: 'Software Engineering' },
-  { label: 'Expected graduation year', value: '2028' },
-  { label: 'Current year / level', value: '3rd year student' },
-  { label: 'Course', value: 'Full stack course in AMIT for 6 months' },
+  { label: 'Graduation', value: '2028' },
+  { label: 'Current level', value: '3rd year' },
+  { label: 'Extra training', value: '6-month Full Stack course — AMIT' },
 ]
 
 const SKILLS = {
-  languages: ['Java', 'Python', 'C/C++', 'JavaScript', 'HTML/CSS'],
-  frameworks: ['Flutter', 'Spring / Spring Boot', 'React', 'Node.js'],
+  languages: ['Java', 'Python', 'C / C++', 'JavaScript', 'HTML / CSS'],
+  frameworks: ['React', 'Flutter', 'Spring Boot', 'Node.js'],
   tools: ['Git / GitHub', 'VS Code', 'IntelliJ', 'Figma'],
   databases: ['MySQL'],
 }
 
 const EXPERIENCE_ITEMS = [
-  'Internship in GASCO',
-  'Freelancing: Yes',
-  'Software development work: No',
-  'Family/business project where I worked: Yes',
-  'Volunteer technical work: Ashering',
-  'Part-time job: No',
+  ['01', 'GASCO Internship', 'Professional internship experience — 2025'],
+  ['02', 'Freelancing', 'Built and shipped work for real-world requirements'],
+  ['03', 'Business / Family Project', 'Applied software and problem-solving outside the classroom'],
+  ['04', 'GDSC & Volunteering', 'Active in technical communities and student activities'],
 ]
 
 const CERTIFICATIONS = [
-  { name: 'GASCO internship certificate', organization: 'Gasco', year: '2025' },
+  { name: 'GASCO Internship Certificate', organization: 'GASCO', year: '2025' },
 ]
 
-const ACTIVITIES = ['Google Developer Student Club (GDSC): Yes', 'Other clubs / organizations: Yes']
-
-const LANGUAGES = ['Arabic: Native', 'English: B2']
+const ACTIVITIES = ['Google Developer Student Club (GDSC)', 'Technical clubs & student activities']
+const LANGUAGES = ['Arabic — Native', 'English — B2']
 
 const CAREER_TARGETS = [
   'Software Engineering Internship',
-  'Flutter Developer Internship',
-  'Backend Developer Internship',
-  'Full-Stack Internship',
+  'Flutter Developer',
+  'Backend Developer',
+  'Full-Stack Developer',
   'Junior Software Engineer',
 ]
 
-function CopyIcon() {
+function ArrowIcon() {
   return (
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 12 12"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <rect x="1" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1" />
-      <rect x="4" y="1" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1" />
+    <svg viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3 13 13 3M5 3h8v8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
 
-function Navbar({
-  menuOpen,
-  onToggleMenu,
-}: {
-  menuOpen: boolean
-  onToggleMenu: () => void
-}) {
+function CopyIcon() {
   return (
-    <>
-      <nav className="fixed top-0 left-0 right-0 z-30 flex items-center justify-between px-5 sm:px-8 py-4 sm:py-5 backdrop-blur-sm">
-        <div className="flex flex-row items-center gap-3">
-          <span
-            className="text-white tracking-tight text-[21px] sm:text-[26px]"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            MAHMOUD SHARKAWY
-          </span>
-          <span
-            aria-hidden="true"
-            className="text-white select-none text-[25px] sm:text-[30px]"
-            style={{ letterSpacing: '-0.02em' }}
-          >
-            {/* ✳︎ */}
-          </span>
-        </div>
-
-        <div className="hidden md:flex flex-row items-center text-white text-[18px] gap-6">
-          {NAV_LINKS.map((link) => (
-            <a key={link.label} href={link.href} className="hover:opacity-60 transition-opacity">
-              {link.label}
-            </a>
-          ))}
-        </div>
-
-        <a
-          href={`mailto:${EMAIL}`}
-          className="hidden md:inline text-white text-[18px] underline underline-offset-2 hover:opacity-60 transition-opacity"
-        >
-          Get in touch
-        </a>
-
-        <button
-          type="button"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={menuOpen}
-          onClick={onToggleMenu}
-          className="md:hidden flex flex-col items-center justify-center gap-[5px] w-8 h-8"
-        >
-          <span
-            className="w-6 h-[2px] bg-white transition-all duration-300"
-            style={{
-              transform: menuOpen ? 'rotate(45deg) translate(4px, 7px)' : 'none',
-            }}
-          />
-          <span
-            className="w-6 h-[2px] bg-white transition-opacity duration-300"
-            style={{ opacity: menuOpen ? 0 : 1 }}
-          />
-          <span
-            className="w-6 h-[2px] bg-white transition-all duration-300"
-            style={{
-              transform: menuOpen ? 'rotate(-45deg) translate(4px, -7px)' : 'none',
-            }}
-          />
-        </button>
-      </nav>
-
-      <div
-        className="fixed inset-0 z-[20] bg-black/90 backdrop-blur-md flex flex-col justify-center items-start px-8 gap-8 md:hidden transition-opacity duration-300"
-        style={{
-          opacity: menuOpen ? 1 : 0,
-          pointerEvents: menuOpen ? 'auto' : 'none',
-        }}
-      >
-        {NAV_LINKS.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            onClick={onToggleMenu}
-            className="text-white text-[30px] font-medium hover:opacity-60 transition-opacity"
-          >
-            {link.label}
-          </a>
-        ))}
-        <a
-          href={`mailto:${EMAIL}`}
-          onClick={onToggleMenu}
-          className="text-white text-[30px] font-medium underline underline-offset-2 hover:opacity-60 transition-opacity"
-        >
-          Get in touch
-        </a>
-      </div>
-    </>
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <rect x="1.5" y="4" width="8.5" height="8.5" rx="1.5" stroke="currentColor" />
+      <rect x="4" y="1.5" width="8.5" height="8.5" rx="1.5" stroke="currentColor" />
+    </svg>
   )
 }
 
-function IntroLabel({ visible }: { visible: boolean }) {
-  return (
-    <p
-      aria-hidden="true"
-      className="pointer-events-none select-none mb-5 sm:mb-6 text-white"
-      style={{
-        fontSize: 'clamp(18px, 4vw, 26px)',
-        lineHeight: 1.3,
-        fontWeight: 400,
-        filter: visible ? 'blur(0px)' : 'blur(4px)',
-        opacity: visible ? 1 : 0.9,
-        transition: 'filter 0.25s ease, opacity 0.25s ease',
-      }}
-    >
-      Software engineering student,
-      <br />
-      frontend-focused and eager to build.
-    </p>
-  )
-}
+function Magnetic({ children, className = '', strength = 0.22 }: { children: ReactNode; className?: string; strength?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
 
-function TypewriterText() {
-  const { displayed, done } = useTypewriter(
-    'Frontend developer seeking internships and part-time opportunities in web and app development.',
-    { speed: 34, startDelay: 600 },
-  )
+  const move = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'touch') return
+    const el = ref.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const x = (event.clientX - (rect.left + rect.width / 2)) / rect.width
+    const y = (event.clientY - (rect.top + rect.height / 2)) / rect.height
+    el.style.setProperty('--mx', `${x * 24 * strength}px`)
+    el.style.setProperty('--my', `${y * 24 * strength}px`)
+    el.style.setProperty('--ms', '1.02')
+  }
 
-  return (
-    <p
-      className="text-white mb-5 sm:mb-6"
-      style={{
-        fontSize: 'clamp(18px, 4vw, 26px)',
-        lineHeight: 1.35,
-        fontWeight: 400,
-        minHeight: '54px',
-      }}
-    >
-      {displayed}
-      {!done && (
-        <span
-          aria-hidden="true"
-          className="typewriter-cursor inline-block w-[2px] h-[1.1em] bg-white align-middle ml-[2px]"
-        />
-      )}
-    </p>
-  )
-}
-
-function ActionPills() {
-  const [visible, setVisible] = useState(false)
-  const [copied, setCopied] = useState(false)
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setVisible(true), 400)
-    return () => clearTimeout(timeout)
-  }, [])
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(EMAIL)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1500)
-    } catch {
-      // clipboard access denied; fail silently
-    }
+  const leave = () => {
+    const el = ref.current
+    if (!el) return
+    el.style.setProperty('--mx', '0px')
+    el.style.setProperty('--my', '0px')
+    el.style.setProperty('--ms', '1')
   }
 
   return (
-    <div
-      className="flex flex-wrap gap-y-1"
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(8px)',
-        transition: 'opacity 0.4s ease, transform 0.4s ease',
-      }}
-    >
-      {PILL_LABELS.map((label) => (
-        <button
-          key={label}
-          type="button"
-          className="inline-flex items-center justify-center bg-white text-black border border-black/10 rounded-full text-[13px] sm:text-[15px] px-4 sm:px-5 py-[0.3em] mx-[0.2em] mb-[0.4em] whitespace-nowrap hover:bg-black hover:text-white transition-colors duration-200"
-        >
-          {label}
-        </button>
-      ))}
-
-      <button
-        type="button"
-        onClick={handleCopy}
-        className="inline-flex items-center justify-center gap-2 sm:gap-3 text-white bg-transparent border border-white rounded-full text-[13px] sm:text-[15px] px-4 sm:px-5 py-[0.3em] mx-[0.2em] mb-[0.4em] whitespace-nowrap hover:bg-white hover:text-black transition-colors duration-200"
-      >
-        <span>
-          Email:{' '}
-          <span className="underline underline-offset-1">{copied ? 'Copied!' : EMAIL}</span>
-        </span>
-        <CopyIcon />
-      </button>
-    </div>
-  )
-}
-
-function SectionTitle({ title }: { title: string }) {
-  return (
-    <h2 className="text-3xl sm:text-4xl font-medium text-white mb-6 tracking-tight">{title}</h2>
-  )
-}
-
-function RevealCard({
-  children,
-  className = '',
-  delay = 0,
-}: {
-  children: ReactNode
-  className?: string
-  delay?: number
-}) {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const [visible, setVisible] = useState(false)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const node = ref.current
-    if (!node) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          const timeout = window.setTimeout(() => setVisible(true), delay)
-          observer.unobserve(node)
-          return () => window.clearTimeout(timeout)
-        }
-      },
-      {
-        threshold: 0.15,
-        rootMargin: '0px 0px -30px 0px',
-      },
-    )
-
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [delay])
-
-  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect()
-    const px = (event.clientX - rect.left) / rect.width
-    const py = (event.clientY - rect.top) / rect.height
-
-    const rotateY = (px - 0.5) * 18
-    const rotateX = (0.5 - py) * 18
-    setTilt({ x: rotateX, y: rotateY })
-  }
-
-  const resetTilt = () => setTilt({ x: 0, y: 0 })
-
-  return (
-    <div
-      ref={ref}
-      className={className}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={resetTilt}
-      onPointerEnter={handlePointerMove}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible
-          ? `translate3d(0,0,0) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(1,1,1)`
-          : 'translate3d(0,28px,0) rotateX(0deg) rotateY(0deg) scale3d(0.985,0.985,1)',
-        filter: visible ? 'blur(0)' : 'blur(4px)',
-        transition: 'opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.7s ease, box-shadow 0.25s ease',
-        transitionDelay: `${delay}ms`,
-        transformStyle: 'preserve-3d',
-        boxShadow: visible
-          ? `0 18px 38px rgba(0,0,0,0.25), ${Math.max(-12, Math.min(12, tilt.y * 1.5))}px ${Math.max(-12, Math.min(12, tilt.x * -1.5))}px 30px rgba(255, 78, 78, 0.16)`
-          : '0 0 0 rgba(0,0,0,0)',
-        perspective: '1200px',
-        background: 'linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))',
-        position: 'relative',
-        overflow: 'hidden',
-        border: '1px solid rgba(255,255,255,0.08)',
-        willChange: 'transform, box-shadow, filter',
-        cursor: 'default',
-      }}
-    >
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: `linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.18) 48%, rgba(255,255,255,0.04) 52%, transparent 72%)`,
-          transform: `translate3d(${tilt.y * 3}px, ${tilt.x * 3}px, 18px) scale(1.2)`,
-          opacity: Math.abs(tilt.x) + Math.abs(tilt.y) > 0 ? 0.9 : 0,
-          transition: 'opacity 0.25s ease, transform 0.25s ease',
-          pointerEvents: 'none',
-        }}
-      />
+    <div ref={ref} className={`magnetic ${className}`} onPointerMove={move} onPointerLeave={leave}>
       {children}
     </div>
   )
 }
 
-function App() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [textActive, setTextActive] = useState(false)
-  const [scrollProgress, setScrollProgress] = useState(0)
+function Navbar({ menuOpen, onToggleMenu }: { menuOpen: boolean; onToggleMenu: () => void }) {
+  return (
+    <nav className="nav">
+      <a href="#top" className="brand" aria-label="Mahmoud Sharkawy home">
+        MS<span>.</span>
+      </a>
+
+      <div className="nav-links">
+        {NAV_LINKS.map((link) => (
+          <a key={link.label} href={link.href}>{link.label}</a>
+        ))}
+      </div>
+
+      <Magnetic className="nav-cta">
+        <a href={`mailto:${EMAIL}`}>Let's talk <ArrowIcon /></a>
+      </Magnetic>
+
+      <button className={`menu-toggle ${menuOpen ? 'open' : ''}`} onClick={onToggleMenu} aria-label={menuOpen ? 'Close menu' : 'Open menu'}>
+        <span /><span />
+      </button>
+
+      <div className={`mobile-menu ${menuOpen ? 'show' : ''}`}>
+        <div className="mobile-menu-inner">
+          {NAV_LINKS.map((link, index) => (
+            <a key={link.label} href={link.href} onClick={onToggleMenu}>
+              <small>0{index + 1}</small>{link.label}
+            </a>
+          ))}
+          <a href={`mailto:${EMAIL}`} onClick={onToggleMenu}><small>05</small>Let's talk</a>
+        </div>
+      </div>
+    </nav>
+  )
+}
+
+function Cursor() {
+  const dot = useRef<HTMLDivElement>(null)
+  const ring = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const updateScrollProgress = () => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-      const nextProgress = maxScroll > 0 ? window.scrollY / maxScroll : 0
-      setScrollProgress(nextProgress)
+    const move = (event: PointerEvent) => {
+      document.documentElement.style.setProperty('--cursor-x', `${event.clientX}px`)
+      document.documentElement.style.setProperty('--cursor-y', `${event.clientY}px`)
+      if (dot.current) {
+        dot.current.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`
+      }
+      if (ring.current) {
+        ring.current.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`
+      }
     }
-
-    updateScrollProgress()
-    window.addEventListener('scroll', updateScrollProgress, { passive: true })
-
-    return () => window.removeEventListener('scroll', updateScrollProgress)
+    window.addEventListener('pointermove', move, { passive: true })
+    return () => window.removeEventListener('pointermove', move)
   }, [])
 
-  const bgGlowX = 18 + scrollProgress * 54
-  const bgGlowY = 12 + scrollProgress * 48
+  return (
+    <>
+      <div className="cursor-dot" ref={dot} />
+      <div className="cursor-ring" ref={ring} />
+    </>
+  )
+}
+
+function Hero() {
+  const { displayed, done } = useTypewriter(
+    'I turn ideas into fast, thoughtful digital experiences.',
+    { speed: 42, startDelay: 900 },
+  )
+
+  return (
+    <section className="hero" id="top">
+      <div className="hero-orbit orbit-one" />
+      <div className="hero-orbit orbit-two" />
+      <div className="hero-grid" />
+
+      <div className="hero-content">
+        <p className="eyebrow"><span /> SOFTWARE ENGINEERING STUDENT · CAIRO, EGYPT</p>
+
+        <h1>
+          MAHMOUD
+          <em>SHARKAWY</em>
+        </h1>
+
+        <div className="hero-bottom">
+          <div className="hero-copy">
+            <p className="type-line">{displayed}{!done && <span className="typewriter-cursor">|</span>}</p>
+            <div className="hero-pills">
+              {PILL_LABELS.map((label) => <span key={label}>{label}</span>)}
+            </div>
+          </div>
+
+          <div className="hero-actions">
+            <Magnetic>
+              <a className="primary-btn" href="#experience">Explore my work <ArrowIcon /></a>
+            </Magnetic>
+            <a className="text-link" href={`mailto:${EMAIL}`}>Available for opportunities <span>↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div className="scroll-hint"><span>SCROLL TO EXPLORE</span><i /></div>
+      <div className="hero-index">01 <span>/</span> 07</div>
+    </section>
+  )
+}
+
+function SectionHeading({ index, title, text }: { index: string; title: string; text?: string }) {
+  return (
+    <div className="section-heading">
+      <div className="section-index">{index}</div>
+      <div>
+        <h2>{title}</h2>
+        {text && <p>{text}</p>}
+      </div>
+    </div>
+  )
+}
+
+function TiltCard({ children, className = '' }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  const move = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'touch') return
+    const el = ref.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const x = (event.clientX - rect.left) / rect.width - 0.5
+    const y = (event.clientY - rect.top) / rect.height - 0.5
+    el.style.setProperty('--rx', `${-y * 8}deg`)
+    el.style.setProperty('--ry', `${x * 10}deg`)
+    el.style.setProperty('--gx', `${(x + 0.5) * 100}%`)
+    el.style.setProperty('--gy', `${(y + 0.5) * 100}%`)
+  }
+
+  const leave = () => {
+    const el = ref.current
+    if (!el) return
+    el.style.setProperty('--rx', '0deg')
+    el.style.setProperty('--ry', '0deg')
+    el.style.setProperty('--gx', '50%')
+    el.style.setProperty('--gy', '50%')
+  }
+
+  return <div ref={ref} className={`tilt-card ${className}`} onPointerMove={move} onPointerLeave={leave}>{children}</div>
+}
+
+function About() {
+  return (
+    <section id="about" className="section">
+      <SectionHeading index="02" title="A little about me" text="Curious by default. Serious about the details." />
+      <div className="about-layout">
+        <div className="about-statement reveal">
+          <p>I'm a <strong>Software Engineering student</strong> who enjoys moving between interface, logic and product thinking.</p>
+          <p>I build with React and Flutter on the front, and Spring Boot / Node.js on the back. My goal isn't just to make things work — it's to make them <strong>feel intentional.</strong></p>
+        </div>
+        <TiltCard className="info-card reveal">
+          <div className="card-glow" />
+          <div className="card-label">CURRENTLY</div>
+          <div className="status"><span /> Open to internships</div>
+          <p>Software Engineering<br />· Frontend · Full Stack · Flutter</p>
+          <div className="card-footer"><span>AASTMT</span><span>2028</span></div>
+        </TiltCard>
+      </div>
+    </section>
+  )
+}
+
+function Skills() {
+  const groups = [
+    ['01', 'Languages', SKILLS.languages],
+    ['02', 'Frameworks', SKILLS.frameworks],
+    ['03', 'Tools', SKILLS.tools],
+    ['04', 'Data', SKILLS.databases],
+  ]
+
+  return (
+    <section id="skills" className="section">
+      <SectionHeading index="03" title="The stack" text="Tools are just tools. Knowing when to use them is the skill." />
+      <div className="skills-grid">
+        {groups.map(([index, title, skills]) => (
+          <TiltCard className="skill-card reveal" key={title as string}>
+            <span className="skill-number">{index}</span>
+            <h3>{title}</h3>
+            <div className="skill-list">
+              {(skills as string[]).map((skill) => <span key={skill}>{skill}</span>)}
+            </div>
+            <div className="skill-arrow">↗</div>
+          </TiltCard>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function Experience() {
+  return (
+    <section id="experience" className="section">
+      <SectionHeading index="04" title="Experience" text="A growing track record, built one challenge at a time." />
+      <div className="experience-list">
+        {EXPERIENCE_ITEMS.map(([number, title, description]) => (
+          <TiltCard className="experience-row reveal" key={number}>
+            <span className="exp-number">{number}</span>
+            <div className="exp-title"><h3>{title}</h3><p>{description}</p></div>
+            <span className="exp-arrow">↗</span>
+          </TiltCard>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function Credentials() {
+  return (
+    <section id="credentials" className="section split-section">
+      <div>
+        <SectionHeading index="05" title="Education & credentials" />
+        <TiltCard className="education-card reveal">
+          <div className="card-label">EDUCATION</div>
+          <h3>{EDUCATION_INFO[0].value}</h3>
+          <p>{EDUCATION_INFO[1].value} · {EDUCATION_INFO[3].value}</p>
+          <div className="education-meta">
+            <span>{EDUCATION_INFO[2].label}</span><strong>{EDUCATION_INFO[2].value}</strong>
+          </div>
+        </TiltCard>
+      </div>
+
+      <div className="credentials-side">
+        <div className="mini-block reveal">
+          <span className="mini-label">CERTIFICATION</span>
+          <h3>{CERTIFICATIONS[0].name}</h3>
+          <p>{CERTIFICATIONS[0].organization} · {CERTIFICATIONS[0].year}</p>
+        </div>
+        <div className="mini-block reveal">
+          <span className="mini-label">LANGUAGES</span>
+          {LANGUAGES.map((language) => <p key={language}>{language}</p>)}
+        </div>
+        <div className="mini-block reveal">
+          <span className="mini-label">ACTIVITIES</span>
+          {ACTIVITIES.map((activity) => <p key={activity}>{activity}</p>)}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function Contact() {
+  const [copied, setCopied] = useState(false)
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1600)
+    } catch {}
+  }
+
+  return (
+    <section id="contact" className="contact-section">
+      <div className="contact-noise" />
+      <SectionHeading index="06" title="Let's build something." text="Have an internship, project, or idea? My inbox is open." />
+      <div className="contact-main">
+        <a className="email-link" href={`mailto:${EMAIL}`}>{EMAIL}<ArrowIcon /></a>
+        <div className="contact-actions">
+          <button onClick={copyEmail}>{copied ? 'Copied ✓' : 'Copy email'} <CopyIcon /></button>
+          <a href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn ↗</a>
+        </div>
+      </div>
+      <div className="contact-details">
+        {CONTACT_INFO.slice(2, 4).map((item) => (
+          <div key={item.label}><span>{item.label.toUpperCase()}</span><strong>{item.value}</strong></div>
+        ))}
+        <div><span>TARGET</span><strong>{CAREER_TARGETS[0]}</strong></div>
+      </div>
+    </section>
+  )
+}
+
+function Footer() {
+  return (
+    <footer>
+      <span>© {new Date().getFullYear()} MAHMOUD SHARKAWY</span>
+      <span>DESIGNED & BUILT WITH REACT</span>
+      <a href="#top">BACK TO TOP ↑</a>
+    </footer>
+  )
+}
+
+function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [mouse, setMouse] = useState({ x: 50, y: 50 })
+
+  useEffect(() => {
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(max > 0 ? window.scrollY / max : 0)
+    }
+    const onMove = (event: PointerEvent) => {
+      setMouse({
+        x: (event.clientX / window.innerWidth) * 100,
+        y: (event.clientY / window.innerHeight) * 100,
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('pointermove', onMove, { passive: true })
+    onScroll()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('pointermove', onMove)
+    }
+  }, [])
+
+  useEffect(() => {
+    const items = document.querySelectorAll<HTMLElement>('.reveal')
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px' })
+    items.forEach((item) => observer.observe(item))
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <div
-      className="relative min-h-screen w-full overflow-hidden text-white"
+      className="app"
       style={{
-        background: `linear-gradient(135deg, #120303 0%, #2b0505 14%, #050505 38%, #1d0202 68%, #050505 100%)`,
-      }}
+        '--mouse-x': `${mouse.x}%`,
+        '--mouse-y': `${mouse.y}%`,
+      } as React.CSSProperties}
     >
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <div
-          className="absolute inset-[-10%] transition-transform duration-200 ease-out"
-          style={{
-            background: `radial-gradient(circle at ${bgGlowX}% ${bgGlowY}%, rgba(255, 60, 60, 0.42), rgba(255, 60, 60, 0.18) 18%, rgba(0,0,0,0.12) 32%, transparent 60%)`,
-            transform: `translateY(${scrollProgress * -30}px) scale(1.2)`,
-          }}
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.08),_transparent_55%)]" />
-      </div>
-
-      <Navbar menuOpen={menuOpen} onToggleMenu={() => setMenuOpen((v) => !v)} />
-
-      <main className="relative z-[1]">
-        <section className="relative min-h-screen flex flex-col justify-end pb-12 md:justify-center md:pb-0 px-5 sm:px-8 md:px-10 overflow-hidden">
-          <div
-            className="max-w-xl relative z-10"
-            onMouseEnter={() => setTextActive(true)}
-            onMouseLeave={() => setTextActive(false)}
-          >
-            <IntroLabel visible={textActive} />
-            <h1 className="text-4xl sm:text-6xl font-medium tracking-[-0.06em] text-white mb-4">
-              MAHMOUD SHARKAWY
-            </h1>
-            <TypewriterText />
-            <ActionPills />
-          </div>
-        </section>
-
-        <section id="about" className="px-5 sm:px-8 md:px-10 pb-20">
-          <div className="mx-auto max-w-6xl">
-            <SectionTitle title="About me" />
-            <div className="grid gap-8 md:grid-cols-2">
-              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={80}>
-                <h3 className="text-xl font-medium mb-4 text-white">Contact</h3>
-                <ul className="space-y-3 text-[15px] text-white/80">
-                  {CONTACT_INFO.map((item) => (
-                    <li key={item.label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-white/10 pb-2 last:border-none last:pb-0">
-                      <span className="text-white/60">{item.label}</span>
-                      {item.label === 'LinkedIn' ? (
-                        <a
-                          href="https://www.linkedin.com/in/mahmoud-sharkawy-bb1561249"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-white underline underline-offset-2 break-all"
-                        >
-                          {item.value}
-                        </a>
-                      ) : (
-                        <span className="text-right sm:text-left break-all">{item.value}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </RevealCard>
-
-              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={140}>
-                <h3 className="text-xl font-medium mb-4 text-white">Education</h3>
-                <ul className="space-y-3 text-[15px] text-white/80">
-                  {EDUCATION_INFO.map((item) => (
-                    <li key={item.label} className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-4 border-b border-white/10 pb-2 last:border-none last:pb-0">
-                      <span className="text-white/60">{item.label}</span>
-                      <span className="text-right sm:text-left">{item.value}</span>
-                    </li>
-                  ))}
-                </ul>
-              </RevealCard>
-            </div>
-          </div>
-        </section>
-
-        <section id="skills" className="px-5 sm:px-8 md:px-10 pb-20">
-          <div className="mx-auto max-w-6xl">
-            <SectionTitle title="Programming & technical skills" />
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={80}>
-                <h3 className="text-lg font-medium mb-4 text-white">Languages</h3>
-                <ul className="space-y-2 text-white/80">
-                  {SKILLS.languages.map((skill) => (
-                    <li key={skill}>• {skill}</li>
-                  ))}
-                </ul>
-              </RevealCard>
-              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={120}>
-                <h3 className="text-lg font-medium mb-4 text-white">Frameworks / Technologies</h3>
-                <ul className="space-y-2 text-white/80">
-                  {SKILLS.frameworks.map((skill) => (
-                    <li key={skill}>• {skill}</li>
-                  ))}
-                </ul>
-              </RevealCard>
-              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={160}>
-                <h3 className="text-lg font-medium mb-4 text-white">Tools</h3>
-                <ul className="space-y-2 text-white/80">
-                  {SKILLS.tools.map((skill) => (
-                    <li key={skill}>• {skill}</li>
-                  ))}
-                </ul>
-              </RevealCard>
-              <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={200}>
-                <h3 className="text-lg font-medium mb-4 text-white">Databases</h3>
-                <ul className="space-y-2 text-white/80">
-                  {SKILLS.databases.map((skill) => (
-                    <li key={skill}>• {skill}</li>
-                  ))}
-                </ul>
-              </RevealCard>
-            </div>
-          </div>
-        </section>
-
-        <section id="experience" className="px-5 sm:px-8 md:px-10 pb-20">
-          <div className="mx-auto max-w-6xl">
-            <SectionTitle title="Experience" />
-            <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8" delay={100}>
-              <ul className="space-y-3 text-[16px] text-white/80">
-                {EXPERIENCE_ITEMS.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <span className="mt-2 h-2 w-2 rounded-full bg-white" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </RevealCard>
-          </div>
-        </section>
-
-        <section id="certifications" className="px-5 sm:px-8 md:px-10 pb-20">
-          <div className="mx-auto max-w-6xl">
-            <SectionTitle title="Certifications" />
-            <div className="grid gap-6 md:grid-cols-2">
-              {CERTIFICATIONS.map((item, index) => (
-                <RevealCard key={item.name} className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={80 + index * 70}>
-                  <p className="text-2xl text-white font-medium mb-2">{item.name}</p>
-                  <p className="text-white/70">Organization: {item.organization}</p>
-                  <p className="text-white/70">Year: {item.year}</p>
-                </RevealCard>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="activities" className="px-5 sm:px-8 md:px-10 pb-20">
-          <div className="mx-auto max-w-6xl">
-            <SectionTitle title="Activities" />
-            <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={100}>
-              <ul className="space-y-3 text-white/80">
-                {ACTIVITIES.map((item) => (
-                  <li key={item}>• {item}</li>
-                ))}
-              </ul>
-            </RevealCard>
-          </div>
-        </section>
-
-        <section id="languages" className="px-5 sm:px-8 md:px-10 pb-20">
-          <div className="mx-auto max-w-6xl">
-            <SectionTitle title="Languages" />
-            <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={100}>
-              <ul className="space-y-3 text-white/80">
-                {LANGUAGES.map((item) => (
-                  <li key={item}>• {item}</li>
-                ))}
-              </ul>
-            </RevealCard>
-          </div>
-        </section>
-
-        <section id="career" className="px-5 sm:px-8 md:px-10 pb-20">
-          <div className="mx-auto max-w-6xl">
-            <SectionTitle title="Career target" />
-            <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6" delay={100}>
-              <div className="flex flex-wrap gap-3">
-                {CAREER_TARGETS.map((item, index) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/85"
-                    style={{
-                      transform: 'translateY(0)',
-                      transitionDelay: `${100 + index * 70}ms`,
-                    }}
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </RevealCard>
-          </div>
-        </section>
-
-        <section id="contact" className="px-5 sm:px-8 md:px-10 pb-24">
-          <div className="mx-auto max-w-6xl">
-            <SectionTitle title="Contact" />
-            <RevealCard className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between" delay={100}>
-              <div>
-                <p className="text-2xl font-medium text-white">Mahmoud Sharkawy</p>
-                <p className="text-white/70">Frontend developer • software engineering student</p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href={`mailto:${EMAIL}`}
-                  className="rounded-full border border-white/20 bg-white px-5 py-2 text-sm text-black hover:bg-black hover:text-white transition-colors"
-                >
-                  Email me
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/mahmoud-sharkawy-bb1561249"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full border border-white/20 px-5 py-2 text-sm text-white hover:bg-white hover:text-black transition-colors"
-                >
-                  LinkedIn
-                </a>
-              </div>
-            </RevealCard>
-          </div>
-        </section>
+      <Cursor />
+      <div className="pointer-glow" />
+      <div className="scroll-progress" style={{ transform: `scaleX(${progress})` }} />
+      <Navbar menuOpen={menuOpen} onToggleMenu={() => setMenuOpen((value) => !value)} />
+      <main>
+        <Hero />
+        <About />
+        <Skills />
+        <Experience />
+        <Credentials />
+        <Contact />
       </main>
+      <Footer />
     </div>
   )
 }
