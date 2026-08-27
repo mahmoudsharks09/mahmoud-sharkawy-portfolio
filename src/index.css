@@ -484,17 +484,19 @@ svg { width: 15px; height: 15px; }
   padding: 25px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
 }
 .skill-number {
   color: #555;
   font-size: 10px;
-  margin-bottom: auto;
+  margin-bottom: 18px;
 }
 .skill-card h3 {
   margin: 0 0 24px;
   font-size: 21px;
   font-weight: 400;
   letter-spacing: -.03em;
+  align-self: flex-start;
 }
 .skill-list {
   display: flex;
