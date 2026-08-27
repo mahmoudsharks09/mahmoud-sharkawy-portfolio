@@ -236,6 +236,7 @@ function About() {
           <div className="card-glow" />
           <div className="card-label">CURRENTLY</div>
           <div className="status"><span /> Open to internships</div>
+          <div className="status"><span /> Open to Part-Time Jobs</div>
           <p>Software Engineering<br />· Frontend · Full Stack · Flutter</p>
           <div className="card-footer"><span>AASTMT</span><span>2028</span></div>
         </TiltCard>
