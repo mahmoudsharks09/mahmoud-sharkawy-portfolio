@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import { CV_URL, EMAIL, EXPERIENCE, GITHUB, LINKEDIN, PHONE, PHONE_INTL, PROJECTS, SKILLS, type Project } from './data'
+
+// Stagger index for the hero entrance (see .intro in index.css)
+const order = (i: number) => ({ '--i': i }) as CSSProperties
 
 function Arrow() {
   return (
@@ -33,14 +36,14 @@ function Header() {
 function Hero() {
   return (
     <section className="hero" id="top">
-      <p className="label hero-label">
+      <p className="label hero-label intro" style={order(0)}>
         <span className="dot" /> Open to internships and part-time roles
       </p>
-      <h1 className="hero-title">
-        Software engineer in the making, <span className="muted">building web apps from Cairo.</span>
+      <h1 className="hero-title intro" style={order(1)}>
+        Software engineer in the making, <span className="muted intro-fade">building web apps from Cairo.</span>
       </h1>
       <div className="hero-foot">
-        <div>
+        <div className="intro" style={order(3)}>
           <p className="hero-intro">
             I'm Mahmoud, a Software Engineering student at AASTMT (class of 2028). I build with React and TypeScript
             on the front and Node.js on the back, and I want things to feel intentional, not just work.
@@ -53,7 +56,7 @@ function Hero() {
         </div>
         <ol className="hero-index" aria-label="Selected work">
           {PROJECTS.map((p, i) => (
-            <li key={p.id}>
+            <li key={p.id} className="intro" style={order(4 + i)}>
               <a href={`#${p.id}`}>
                 <span className="num">0{i + 1}</span>
                 <span className="name">{p.name}</span>
@@ -105,7 +108,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 function Work() {
   return (
     <section className="section" id="work">
-      <div className="section-head">
+      <div className="section-head reveal">
         <h2>Selected work</h2>
         <p>Deployed projects, each with its live site and source code.</p>
       </div>
@@ -119,7 +122,7 @@ function Work() {
 function About() {
   return (
     <section className="section" id="about">
-      <div className="section-head">
+      <div className="section-head reveal">
         <h2>About</h2>
       </div>
       <div className="about">
@@ -157,7 +160,7 @@ function About() {
 function Experience() {
   return (
     <section className="section" id="experience">
-      <div className="section-head">
+      <div className="section-head reveal">
         <h2>Experience</h2>
       </div>
       <ol className="timeline">
@@ -189,8 +192,8 @@ function Contact() {
   return (
     <section className="contact" id="contact">
       <p className="label">Contact</p>
-      <h2 className="contact-title">Have an internship, project or idea? Let's talk.</h2>
-      <a className="contact-email" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+      <h2 className="contact-title reveal">Have an internship, project or idea? Let's talk.</h2>
+      <a className="contact-email reveal" href={`mailto:${EMAIL}`}>{EMAIL}</a>
       <div className="contact-actions">
         <button className="btn btn-light" onClick={copy} aria-live="polite">{copied ? 'Copied' : 'Copy email'}</button>
         <a className="btn btn-light" href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn <Arrow /></a>

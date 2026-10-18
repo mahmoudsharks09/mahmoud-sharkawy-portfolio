@@ -19,6 +19,10 @@
   --max: 1320px;
   --radius: 14px;
 
+  /* Motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
   color-scheme: light;
 }
 
@@ -73,16 +77,16 @@ ol, ul { padding: 0; list-style: none; }
   background: transparent; color: var(--ink);
   font: inherit; font-size: 15px; font-weight: 500;
   text-decoration: none; cursor: pointer;
-  transition: background-color .18s ease, color .18s ease, border-color .18s ease;
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform 160ms var(--ease-out);
 }
+.btn:active { transform: scale(0.97); }
 .btn:hover { background: var(--ink); color: var(--paper); }
 .btn-solid { background: var(--ink); color: var(--paper); }
 .btn-solid:hover { background: var(--accent); border-color: var(--accent); }
 .btn-light { border-color: var(--dark-line); color: var(--dark-ink); }
 .btn-light:hover { background: var(--dark-ink); color: var(--dark); border-color: var(--dark-ink); }
 
-.arrow { width: 14px; height: 14px; transition: transform .18s ease; }
-.btn:hover .arrow { transform: translate(2px, -2px); }
+.arrow { width: 14px; height: 14px; transition: transform 200ms var(--ease-out); }
 
 /* ---------- Header ---------- */
 
@@ -102,7 +106,7 @@ ol, ul { padding: 0; list-style: none; }
 .nav a {
   font-size: 15px; text-decoration: none; color: var(--ink-2);
   background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
-  transition: background-size .2s ease, color .2s ease;
+  transition: background-size 250ms var(--ease-out), color 180ms ease;
 }
 .nav a:hover { color: var(--ink); background-size: 100% 1px; }
 .nav .nav-cv { padding: 6px 14px; border: 1px solid var(--ink); border-radius: 999px; background: none; }
@@ -156,9 +160,8 @@ ol, ul { padding: 0; list-style: none; }
   display: grid; grid-template-columns: 36px 1fr auto; align-items: baseline; gap: 12px;
   padding: 16px 0; border-bottom: 1px solid var(--line);
   text-decoration: none;
-  transition: padding-left .2s ease;
 }
-.hero-index a:hover { padding-left: 8px; }
+.hero-index .name, .hero-index .kind { transition: transform 250ms var(--ease-out), color 180ms ease; }
 .hero-index .num { font-family: var(--mono); font-size: 12px; }
 .hero-index .name { font-size: clamp(22px, 2.2vw, 30px); font-weight: 600; letter-spacing: -0.02em; }
 .hero-index .kind { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
@@ -170,7 +173,12 @@ ol, ul { padding: 0; list-style: none; }
 .section-head {
   display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px;
   padding-bottom: 20px; margin-bottom: clamp(32px, 5vw, 56px);
-  border-bottom: 1px solid var(--ink);
+  position: relative;
+}
+.section-head::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 1px; background: var(--ink);
+  transform-origin: left;
 }
 .section-head h2 { font-size: clamp(32px, 4.4vw, 56px); font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
 .section-head p { color: var(--muted); max-width: 40ch; }
@@ -192,10 +200,9 @@ ol, ul { padding: 0; list-style: none; }
   background: var(--card);
   text-decoration: none;
   box-shadow: 0 1px 0 rgba(20, 19, 17, .04), 0 24px 48px -28px rgba(20, 19, 17, .35);
-  transition: transform .3s ease, box-shadow .3s ease;
+  transition: transform 300ms var(--ease-out), box-shadow 300ms ease;
 }
-.shot:hover { transform: translateY(-4px); box-shadow: 0 1px 0 rgba(20, 19, 17, .04), 0 32px 56px -28px rgba(20, 19, 17, .45); }
-.shot img { aspect-ratio: 16 / 10; width: 100%; object-fit: cover; object-position: top; background: var(--paper-2); }
+.shot img { transition: transform 600ms var(--ease-out); aspect-ratio: 16 / 10; width: 100%; object-fit: cover; object-position: top; background: var(--paper-2); }
 
 .shot-bar {
   display: flex; align-items: center; gap: 6px;
@@ -305,15 +312,115 @@ ol, ul { padding: 0; list-style: none; }
 .footer a { text-decoration: none; }
 .footer a:hover { color: var(--dark-ink); }
 
-/* ---------- Reveal ---------- */
+/* ---------- Motion ----------
+   Hero: one-time entrance on load (CSS keyframes, off the main thread).
+   Sections: reveal once when scrolled into view (.reveal + .is-visible from App.tsx).
+   Hover motion is gated to real pointers; everything softens under reduced motion. */
 
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s cubic-bezier(.2, .7, .2, 1); }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+}
+@keyframes fade {
+  from { opacity: 0; }
+}
+@keyframes settle {
+  from { transform: scale(1.08); }
+}
+@keyframes header-line {
+  to { border-bottom-color: var(--line); }
+}
+
+/* Hero entrance, staggered by --i */
+.intro { animation: rise 900ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 70ms + 80ms); }
+.intro-fade { animation: fade 900ms var(--ease-out) 450ms both; }
+
+/* Header gains its hairline once the page scrolls */
+@supports (animation-timeline: scroll()) {
+  .header {
+    animation: header-line linear both;
+    animation-timeline: scroll();
+    animation-range: 0 80px;
+  }
+}
+
+/* Generic reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+}
 .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Section rule draws across as its heading arrives */
+.section-head::after { transform: scaleX(0); transition: transform 1000ms var(--ease-in-out) 100ms; }
+.section-head.is-visible::after { transform: scaleX(1); }
+
+/* Project: screenshot wipes up while the image settles, then the text follows */
+.project.reveal { opacity: 1; transform: none; }
+.project .shot {
+  clip-path: inset(0 0 100% 0 round var(--radius));
+  transition: clip-path 1000ms var(--ease-in-out), transform 300ms var(--ease-out), box-shadow 300ms ease;
+}
+.project.is-visible .shot { clip-path: inset(-80px -80px -100px -80px round var(--radius)); }
+.project.is-visible .shot img { animation: settle 1400ms var(--ease-out) backwards; }
+
+.project .project-body > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+}
+.project.is-visible .project-body > * { opacity: 1; transform: none; }
+.project-body > :nth-child(1) { transition-delay: 250ms; }
+.project-body > :nth-child(2) { transition-delay: 310ms; }
+.project-body > :nth-child(3) { transition-delay: 370ms; }
+.project-body > :nth-child(4) { transition-delay: 430ms; }
+.project-body > :nth-child(5) { transition-delay: 490ms; }
+.project-body > :nth-child(6) { transition-delay: 550ms; }
+.project-body > :nth-child(7) { transition-delay: 610ms; }
+.project-body > :nth-child(8) { transition-delay: 670ms; }
+
+/* Small stagger inside lists that reveal row by row */
+.timeline li:nth-child(2) { transition-delay: 60ms; }
+.timeline li:nth-child(3) { transition-delay: 120ms; }
+.timeline li:nth-child(4) { transition-delay: 180ms; }
+.timeline li:nth-child(5) { transition-delay: 240ms; }
+.facts.reveal { transition-delay: 120ms; }
+.contact-email.reveal { transition-delay: 120ms; }
+
+/* Hover: real pointers only, so taps on phones don't leave things stuck mid-move */
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover .arrow { transform: translate(2px, -2px); }
+  .hero-index a:hover .name { transform: translateX(8px); }
+  .hero-index a:hover .kind { transform: translateX(-4px); color: var(--ink); }
+  .project.is-visible .shot:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 1px 0 rgba(20, 19, 17, .04), 0 36px 60px -30px rgba(20, 19, 17, .45);
+  }
+  .shot:hover img { transform: scale(1.025); }
+}
+
+/* Mobile menu: drops in from the header, exits the same way */
+@media (max-width: 720px) {
+  .nav {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out), display 200ms allow-discrete;
+  }
+  .nav.is-open { opacity: 1; transform: none; }
+  @starting-style {
+    .nav.is-open { opacity: 0; transform: translateY(-8px); }
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  * { transition-duration: 0s !important; }
+  .intro, .intro-fade { animation: fade 400ms ease both; }
+  .reveal, .project .project-body > * { transform: none; transition: opacity 400ms ease; transition-delay: 0ms; }
+  .project .shot, .project.is-visible .shot { clip-path: none; transition: opacity 400ms ease; }
+  .project.is-visible .shot img { animation: none; }
+  .section-head::after { transform: none; transition: none; }
+  .nav { transform: none; }
+  .btn:active { transform: none; }
 }
 
 /* ---------- Responsive ---------- */
