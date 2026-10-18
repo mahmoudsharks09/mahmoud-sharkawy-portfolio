@@ -4,7 +4,7 @@ export const PHONE_INTL = '+201095098055'
 export const LINKEDIN = 'https://www.linkedin.com/in/mahmoud-sharkawy-bb1561249'
 export const GITHUB = 'https://github.com/mahmoudsharks09'
 // Drop the PDF in public/ and set this to its path (e.g. '/mahmoud-sharkawy-cv.pdf') to show the CV buttons.
-export const CV_URL: string | null = null
+export const CV_URL: string | null = '/Mahmoud-Sharkawy-CV.pdf'
 
 export type Project = {
   id: string
