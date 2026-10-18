@@ -1,271 +1,153 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { useTypewriter } from './hooks/useTypewriter'
-import './index.css'
+import { useEffect, useState } from 'react'
+import { CV_URL, EMAIL, EXPERIENCE, GITHUB, LINKEDIN, PHONE, PHONE_INTL, PROJECTS, SKILLS, type Project } from './data'
 
-const NAV_LINKS = [
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Contact', href: '#contact' },
-]
-
-const PILL_LABELS = ['Frontend', 'React', 'Flutter', 'Spring Boot']
-
-const EMAIL = 'mahmoud12bn5@gmail.com'
-const LINKEDIN = 'https://www.linkedin.com/in/mahmoud-sharkawy-bb1561249'
-
-const CONTACT_INFO = [
-  { label: 'Full name', value: 'Mahmoud Sharkawy' },
-  { label: 'Phone', value: '01095098055' },
-  { label: 'Email', value: EMAIL },
-  { label: 'Based in', value: 'Cairo, Egypt' },
-]
-
-const EDUCATION_INFO = [
-  { label: 'University', value: 'AASTMT' },
-  { label: 'Major', value: 'Software Engineering' },
-  { label: 'Graduation', value: '2028' },
-  { label: 'Current level', value: '3rd year' },
-  { label: 'Extra training', value: '6-month Full Stack course — AMIT' },
-]
-
-const SKILLS = {
-  languages: ['Java', 'Python', 'C / C++', 'JavaScript', 'HTML / CSS'],
-  frameworks: ['React', 'Node.js'],
-  tools: ['Git / GitHub', 'VS Code', 'IntelliJ', 'Figma'],
-  databases: ['MySQL'],
-}
-
-const EXPERIENCE_ITEMS = [
-  ['01', 'GASCO Internship', 'Professional internship experience — 2025'],
-  ['02', 'Freelancing', 'Built and shipped work for real-world requirements'],
-  ['03', 'Business / Family Project', 'Applied software and problem-solving outside the classroom'],
-  ['04', 'GDSC & Volunteering', 'Active in technical communities and student activities'],
-]
-
-const CERTIFICATIONS = [
-  { name: 'GASCO Internship Certificate', organization: 'GASCO', year: '2025' },
-]
-
-const ACTIVITIES = ['Google Developer Student Club (GDSC)', 'Technical clubs & student activities']
-const LANGUAGES = ['Arabic — Native', 'English — B2']
-
-const CAREER_TARGETS = [
-  'Software Engineering Internship',
-  'Flutter Developer',
-  'Backend Developer',
-  'Full-Stack Developer',
-  'Junior Software Engineer',
-]
-
-function ArrowIcon() {
+function Arrow() {
   return (
-    <svg viewBox="0 0 16 16" aria-hidden="true">
-      <path d="M3 13 13 3M5 3h8v8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <svg className="arrow" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M4 12 12 4M5.5 4H12v6.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
 
-function CopyIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <rect x="1.5" y="4" width="8.5" height="8.5" rx="1.5" stroke="currentColor" />
-      <rect x="4" y="1.5" width="8.5" height="8.5" rx="1.5" stroke="currentColor" />
-    </svg>
-  )
-}
-
-function Magnetic({ children, className = '', strength = 0.22 }: { children: ReactNode; className?: string; strength?: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-
-  const move = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === 'touch') return
-    const el = ref.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    const x = (event.clientX - (rect.left + rect.width / 2)) / rect.width
-    const y = (event.clientY - (rect.top + rect.height / 2)) / rect.height
-    el.style.setProperty('--mx', `${x * 24 * strength}px`)
-    el.style.setProperty('--my', `${y * 24 * strength}px`)
-    el.style.setProperty('--ms', '1.02')
-  }
-
-  const leave = () => {
-    const el = ref.current
-    if (!el) return
-    el.style.setProperty('--mx', '0px')
-    el.style.setProperty('--my', '0px')
-    el.style.setProperty('--ms', '1')
-  }
+function Header() {
+  const [open, setOpen] = useState(false)
+  const close = () => setOpen(false)
 
   return (
-    <div ref={ref} className={`magnetic ${className}`} onPointerMove={move} onPointerLeave={leave}>
-      {children}
-    </div>
-  )
-}
-
-function Navbar({ menuOpen, onToggleMenu }: { menuOpen: boolean; onToggleMenu: () => void }) {
-  return (
-    <nav className="nav">
-      <a href="#top" className="brand" aria-label="Mahmoud Sharkawy home">
-        MS<span>.</span>
-      </a>
-
-      <div className="nav-links">
-        {NAV_LINKS.map((link) => (
-          <a key={link.label} href={link.href}>{link.label}</a>
-        ))}
-      </div>
-
-      <Magnetic className="nav-cta">
-        <a href={`mailto:${EMAIL}`}>Let's talk <ArrowIcon /></a>
-      </Magnetic>
-
-      <button className={`menu-toggle ${menuOpen ? 'open' : ''}`} onClick={onToggleMenu} aria-label={menuOpen ? 'Close menu' : 'Open menu'}>
-        <span /><span />
+    <header className={`header ${open ? 'is-open' : ''}`}>
+      <a href="#top" className="wordmark" onClick={close}>Mahmoud Sharkawy</a>
+      <button className="menu-btn" aria-expanded={open} aria-controls="site-nav" onClick={() => setOpen((v) => !v)}>
+        {open ? 'Close' : 'Menu'}
       </button>
-
-      <div className={`mobile-menu ${menuOpen ? 'show' : ''}`}>
-        <div className="mobile-menu-inner">
-          {NAV_LINKS.map((link, index) => (
-            <a key={link.label} href={link.href} onClick={onToggleMenu}>
-              <small>0{index + 1}</small>{link.label}
-            </a>
-          ))}
-          <a href={`mailto:${EMAIL}`} onClick={onToggleMenu}><small>05</small>Let's talk</a>
-        </div>
-      </div>
-    </nav>
+      <nav id="site-nav" className={`nav ${open ? 'is-open' : ''}`}>
+        <a href="#work" onClick={close}>Work</a>
+        <a href="#about" onClick={close}>About</a>
+        <a href="#experience" onClick={close}>Experience</a>
+        <a href="#contact" onClick={close}>Contact</a>
+        {CV_URL && <a className="nav-cv" href={CV_URL} target="_blank" rel="noreferrer" onClick={close}>CV</a>}
+      </nav>
+    </header>
   )
 }
 
 function Hero() {
-  const { displayed, done } = useTypewriter(
-    'I turn ideas into fast, thoughtful digital experiences.',
-    { speed: 42, startDelay: 900 },
-  )
-
   return (
     <section className="hero" id="top">
-      <div className="hero-orbit orbit-one" />
-      <div className="hero-orbit orbit-two" />
-      <div className="hero-grid" />
-
-      <div className="hero-content">
-        <p className="eyebrow"><span /> SOFTWARE ENGINEERING STUDENT · CAIRO, EGYPT</p>
-
-        <h1>
-          MAHMOUD
-          <em>SHARKAWY</em>
-        </h1>
-
-        <div className="hero-bottom">
-          <div className="hero-copy">
-            <p className="type-line">{displayed}{!done && <span className="typewriter-cursor">|</span>}</p>
-            <div className="hero-pills">
-              {PILL_LABELS.map((label) => <span key={label}>{label}</span>)}
-            </div>
-          </div>
-
+      <p className="label hero-label">
+        <span className="dot" /> Open to internships and part-time roles
+      </p>
+      <h1 className="hero-title">
+        Software engineer in the making, <span className="muted">building web apps from Cairo.</span>
+      </h1>
+      <div className="hero-foot">
+        <div>
+          <p className="hero-intro">
+            I'm Mahmoud, a Software Engineering student at AASTMT (class of 2028). I build with React and TypeScript
+            on the front and Node.js on the back, and I want things to feel intentional, not just work.
+          </p>
           <div className="hero-actions">
-            <Magnetic>
-              <a className="primary-btn" href="#experience">Explore my work <ArrowIcon /></a>
-            </Magnetic>
-            <a className="text-link" href={`mailto:${EMAIL}`}>Available for opportunities <span>↗</span></a>
+            <a className="btn btn-solid" href="#work">See the work</a>
+            <a className="btn" href={`mailto:${EMAIL}`}>Email me</a>
+            {CV_URL && <a className="btn" href={CV_URL} target="_blank" rel="noreferrer">Download CV</a>}
           </div>
         </div>
+        <ol className="hero-index" aria-label="Selected work">
+          {PROJECTS.map((p, i) => (
+            <li key={p.id}>
+              <a href={`#${p.id}`}>
+                <span className="num">0{i + 1}</span>
+                <span className="name">{p.name}</span>
+                <span className="kind">{p.kind}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
       </div>
-
-      <div className="scroll-hint"><span>SCROLL TO EXPLORE</span><i /></div>
-      <div className="hero-index">01 <span>/</span> 07</div>
     </section>
   )
 }
 
-function SectionHeading({ index, title, text }: { index: string; title: string; text?: string }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const host = new URL(project.live).host
   return (
-    <div className="section-heading">
-      <div className="section-index">{index}</div>
-      <div>
-        <h2>{title}</h2>
-        {text && <p>{text}</p>}
+    <article className="project reveal" id={project.id}>
+      <a className="shot" href={project.live} target="_blank" rel="noreferrer" aria-label={`Open the ${project.name} live site`}>
+        <span className="shot-bar" aria-hidden="true">
+          <i /><i /><i />
+          <span className="shot-url">{host}</span>
+        </span>
+        <img src={project.image} alt={`${project.name} home screen`} width={1440} height={900} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+      </a>
+
+      <div className="project-body">
+        <p className="label">
+          <span className="num">0{index + 1}</span> {project.kind} · {project.year}
+        </p>
+        <h3 className="project-name">{project.name}</h3>
+        <p className="project-summary">{project.summary}</p>
+        <p className="project-desc">{project.description}</p>
+        <ul className="highlights">
+          {project.highlights.map((h) => <li key={h}>{h}</li>)}
+        </ul>
+        <ul className="stack" aria-label="Built with">
+          {project.stack.map((s) => <li key={s}>{s}</li>)}
+        </ul>
+        {project.note && <p className="project-note">{project.note}</p>}
+        <div className="project-links">
+          <a className="btn btn-solid" href={project.live} target="_blank" rel="noreferrer">Live site <Arrow /></a>
+          <a className="btn" href={project.repo} target="_blank" rel="noreferrer">Code <Arrow /></a>
+        </div>
       </div>
-    </div>
+    </article>
   )
 }
 
-function TiltCard({ children, className = '' }: { children: ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-
-  const move = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === 'touch') return
-    const el = ref.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    const x = (event.clientX - rect.left) / rect.width - 0.5
-    const y = (event.clientY - rect.top) / rect.height - 0.5
-    el.style.setProperty('--rx', `${-y * 8}deg`)
-    el.style.setProperty('--ry', `${x * 10}deg`)
-    el.style.setProperty('--gx', `${(x + 0.5) * 100}%`)
-    el.style.setProperty('--gy', `${(y + 0.5) * 100}%`)
-  }
-
-  const leave = () => {
-    const el = ref.current
-    if (!el) return
-    el.style.setProperty('--rx', '0deg')
-    el.style.setProperty('--ry', '0deg')
-    el.style.setProperty('--gx', '50%')
-    el.style.setProperty('--gy', '50%')
-  }
-
-  return <div ref={ref} className={`tilt-card ${className}`} onPointerMove={move} onPointerLeave={leave}>{children}</div>
+function Work() {
+  return (
+    <section className="section" id="work">
+      <div className="section-head">
+        <h2>Selected work</h2>
+        <p>Deployed projects, each with its live site and source code.</p>
+      </div>
+      <div className="projects">
+        {PROJECTS.map((p, i) => <ProjectCard key={p.id} project={p} index={i} />)}
+      </div>
+    </section>
+  )
 }
 
 function About() {
   return (
-    <section id="about" className="section">
-      <SectionHeading index="02" title="A little about me" text="Curious by default. Serious about the details." />
-      <div className="about-layout">
-        <div className="about-statement reveal">
-          <p>I'm a <strong>Software Engineering student</strong> who enjoys moving between interface, logic and product thinking.</p>
-          <p>I build with React on the front, and Node.js on the back. My goal isn't just to make things work — it's to make them <strong>feel intentional.</strong></p>
-        </div>
-        <TiltCard className="info-card reveal">
-          <div className="card-glow" />
-          <div className="card-label">CURRENTLY</div>
-          <div className="status"><span /> Open to internships</div>
-          <div className="status"><span /> Open to Part-Time Jobs</div>
-          <p>Software Engineering<br />· Frontend · Full Stack · Flutter</p>
-          <div className="card-footer"><span>AASTMT</span><span>2028</span></div>
-        </TiltCard>
+    <section className="section" id="about">
+      <div className="section-head">
+        <h2>About</h2>
       </div>
-    </section>
-  )
-}
-
-function Skills() {
-  const groups = [
-    ['01', 'Languages', SKILLS.languages],
-    ['02', 'Frameworks', SKILLS.frameworks],
-    ['03', 'Tools', SKILLS.tools],
-    ['04', 'Data', SKILLS.databases],
-  ]
-
-  return (
-    <section id="skills" className="section">
-      <SectionHeading index="03" title="The stack" text="Tools are just tools. Knowing when to use them is the skill." />
-      <div className="skills-grid">
-        {groups.map(([index, title, skills]) => (
-          <TiltCard className="skill-card reveal" key={title as string}>
-            <span className="skill-number">{index}</span>
-            <h3>{title}</h3>
-            <div className="skill-list">
-              {(skills as string[]).map((skill) => <span key={skill}>{skill}</span>)}
-            </div>
-            <div className="skill-arrow">↗</div>
-          </TiltCard>
+      <div className="about">
+        <div className="about-text reveal">
+          <p>
+            I'm a <strong>Software Engineering student</strong> who enjoys moving between interface, logic and product
+            thinking. Curious by default, serious about the details.
+          </p>
+          <p>
+            I'm looking for a <strong>software engineering internship</strong> or a part-time role in frontend,
+            backend or full-stack work.
+          </p>
+        </div>
+        <dl className="facts reveal">
+          <div><dt>University</dt><dd>AASTMT</dd></div>
+          <div><dt>Major</dt><dd>Software Engineering, 3rd year</dd></div>
+          <div><dt>Graduation</dt><dd>2028</dd></div>
+          <div><dt>Training</dt><dd>Full Stack course, AMIT (6 months)</dd></div>
+          <div><dt>Languages</dt><dd>Arabic (native), English (B2)</dd></div>
+          <div><dt>Based in</dt><dd>Cairo, Egypt</dd></div>
+        </dl>
+      </div>
+      <div className="skills reveal">
+        {SKILLS.map(([group, items]) => (
+          <div className="skill-group" key={group}>
+            <h3 className="label">{group}</h3>
+            <p>{items.join(' · ')}</p>
+          </div>
         ))}
       </div>
     </section>
@@ -274,51 +156,19 @@ function Skills() {
 
 function Experience() {
   return (
-    <section id="experience" className="section">
-      <SectionHeading index="04" title="Experience" text="A growing track record, built one challenge at a time." />
-      <div className="experience-list">
-        {EXPERIENCE_ITEMS.map(([number, title, description]) => (
-          <TiltCard className="experience-row reveal" key={number}>
-            <span className="exp-number">{number}</span>
-            <div className="exp-title"><h3>{title}</h3><p>{description}</p></div>
-            <span className="exp-arrow">↗</span>
-          </TiltCard>
+    <section className="section" id="experience">
+      <div className="section-head">
+        <h2>Experience</h2>
+      </div>
+      <ol className="timeline">
+        {EXPERIENCE.map(([year, title, text]) => (
+          <li className="reveal" key={title}>
+            <span className="label">{year}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </li>
         ))}
-      </div>
-    </section>
-  )
-}
-
-function Credentials() {
-  return (
-    <section id="credentials" className="section split-section">
-      <div>
-        <SectionHeading index="05" title="Education & credentials" />
-        <TiltCard className="education-card reveal">
-          <div className="card-label">EDUCATION</div>
-          <h3>{EDUCATION_INFO[0].value}</h3>
-          <p>{EDUCATION_INFO[1].value} · {EDUCATION_INFO[3].value}</p>
-          <div className="education-meta">
-            <span>{EDUCATION_INFO[2].label}</span><strong>{EDUCATION_INFO[2].value}</strong>
-          </div>
-        </TiltCard>
-      </div>
-
-      <div className="credentials-side">
-        <div className="mini-block reveal">
-          <span className="mini-label">CERTIFICATION</span>
-          <h3>{CERTIFICATIONS[0].name}</h3>
-          <p>{CERTIFICATIONS[0].organization} · {CERTIFICATIONS[0].year}</p>
-        </div>
-        <div className="mini-block reveal">
-          <span className="mini-label">LANGUAGES</span>
-          {LANGUAGES.map((language) => <p key={language}>{language}</p>)}
-        </div>
-        <div className="mini-block reveal">
-          <span className="mini-label">ACTIVITIES</span>
-          {ACTIVITIES.map((activity) => <p key={activity}>{activity}</p>)}
-        </div>
-      </div>
+      </ol>
     </section>
   )
 }
@@ -326,88 +176,66 @@ function Credentials() {
 function Contact() {
   const [copied, setCopied] = useState(false)
 
-  const copyEmail = async () => {
+  const copy = async () => {
     try {
       await navigator.clipboard.writeText(EMAIL)
       setCopied(true)
       window.setTimeout(() => setCopied(false), 1600)
-    } catch {}
+    } catch {
+      window.location.href = `mailto:${EMAIL}`
+    }
   }
 
   return (
-    <section id="contact" className="contact-section">
-      <div className="contact-noise" />
-      <SectionHeading index="06" title="Let's build something." text="Have an internship, project, or idea? My inbox is open." />
-      <div className="contact-main">
-        <a className="email-link" href={`mailto:${EMAIL}`}>{EMAIL}<ArrowIcon /></a>
-        <div className="contact-actions">
-          <button onClick={copyEmail}>{copied ? 'Copied ✓' : 'Copy email'} <CopyIcon /></button>
-          <a href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn ↗</a>
-        </div>
+    <section className="contact" id="contact">
+      <p className="label">Contact</p>
+      <h2 className="contact-title">Have an internship, project or idea? Let's talk.</h2>
+      <a className="contact-email" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+      <div className="contact-actions">
+        <button className="btn btn-light" onClick={copy} aria-live="polite">{copied ? 'Copied' : 'Copy email'}</button>
+        <a className="btn btn-light" href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn <Arrow /></a>
+        <a className="btn btn-light" href={GITHUB} target="_blank" rel="noreferrer">GitHub <Arrow /></a>
+        <a className="btn btn-light" href={`tel:${PHONE_INTL}`}>{PHONE}</a>
+        {CV_URL && <a className="btn btn-light" href={CV_URL} target="_blank" rel="noreferrer">CV <Arrow /></a>}
       </div>
-      <div className="contact-details">
-        {CONTACT_INFO.slice(1, 4).map((item) => (
-          <div key={item.label}><span>{item.label.toUpperCase()}</span><strong>{item.value}</strong></div>
-        ))}
-        <div><span>TARGET</span><strong>{CAREER_TARGETS[0]}</strong></div>
-      </div>
+      <footer className="footer">
+        <span>© {new Date().getFullYear()} Mahmoud Sharkawy</span>
+        <a href="#top">Back to top ↑</a>
+      </footer>
     </section>
   )
 }
 
-function Footer() {
-  return (
-    <footer>
-      <span>© {new Date().getFullYear()} MAHMOUD SHARKAWY</span>
-      <span>DESIGNED & BUILT WITH REACT</span>
-      <a href="#top">BACK TO TOP ↑</a>
-    </footer>
-  )
-}
-
-function App() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [progress, setProgress] = useState(0)
-
-  useEffect(() => {
-    const onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight
-      setProgress(max > 0 ? window.scrollY / max : 0)
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
+export default function App() {
   useEffect(() => {
     const items = document.querySelectorAll<HTMLElement>('.reveal')
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      items.forEach((el) => el.classList.add('is-visible'))
+      return
+    }
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
+      for (const entry of entries) {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
+          entry.target.classList.add('is-visible')
           observer.unobserve(entry.target)
         }
-      })
-    }, { threshold: 0.12, rootMargin: '0px 0px -50px' })
-    items.forEach((item) => observer.observe(item))
+      }
+    }, { rootMargin: '0px 0px -8% 0px' })
+    items.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
   }, [])
 
   return (
-    <div className="app">
-      <div className="scroll-progress" style={{ transform: `scaleX(${progress})` }} />
-      <Navbar menuOpen={menuOpen} onToggleMenu={() => setMenuOpen((value) => !value)} />
+    <>
+      <a className="skip" href="#work">Skip to work</a>
+      <Header />
       <main>
         <Hero />
+        <Work />
         <About />
-        <Skills />
         <Experience />
-        <Credentials />
         <Contact />
       </main>
-      <Footer />
-    </div>
+    </>
   )
 }
-
-export default App

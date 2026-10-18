@@ -1,21 +1,8 @@
-# Mahmoud Sharkawy — Portfolio
+# Mahmoud Sharkawy · Portfolio
 
-A recruiter-focused React portfolio with a dark editorial visual system and mouse-reactive interactions.
+Personal portfolio: selected projects (with live sites and source), about, skills, experience and contact.
 
-## What changed
-
-- Mouse-following spotlight that reacts across the entire page.
-- Custom desktop cursor + trailing ring.
-- Magnetic CTA interactions.
-- 3D tilt cards that follow the pointer.
-- Scroll progress indicator.
-- Animated hero grid, orbital glow and ambient motion.
-- Typewriter hero copy.
-- IntersectionObserver reveal animations.
-- Responsive mobile navigation.
-- Recruiter-focused hierarchy: identity → stack → experience → education → contact.
-- Accessible links/buttons and touch-device fallbacks.
-- No new runtime dependencies.
+Built with React 19, TypeScript and Vite. Plain CSS, no UI libraries, no runtime dependencies beyond React.
 
 ## Run locally
 
@@ -24,16 +11,15 @@ npm install
 npm run dev
 ```
 
-## Production build
+## Build
 
 ```bash
 npm run build
 npm run preview
 ```
 
-> The supplied archive contained an incomplete `node_modules` install, so `node_modules` is intentionally excluded from this edited source archive. Run `npm install` before building locally.
+## Editing content
 
-## Main files
-
-- `src/App.tsx` — portfolio UI and interactions
-- `src/index.css` — visual system, responsive layout and animations
+- `src/data.ts`: projects, skills, experience and contact details.
+- `public/work/`: project screenshots (1440×900 captures of each live site).
+- CV: put the PDF in `public/` and set `CV_URL` in `src/data.ts`; the CV buttons appear automatically.
