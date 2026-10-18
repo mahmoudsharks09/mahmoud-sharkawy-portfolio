@@ -79,7 +79,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <i /><i /><i />
           <span className="shot-url">{host}</span>
         </span>
-        <img src={project.image} alt={`${project.name} home screen`} width={1440} height={900} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+        <img src={project.image} alt={`${project.name} landing page`} width={1440} height={900} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
       </a>
 
       <div className="project-body">
