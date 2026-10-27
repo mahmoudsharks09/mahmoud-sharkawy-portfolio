@@ -47,7 +47,7 @@ const body = [
   heading('Projects'),
   ...CV.projects.flatMap((p) => [
     entryHead(p.head),
-    line([run('Live: '), link(short(p.live), p.live), sep(), run('Code: '), link(short(p.repo), p.repo)]),
+    line([run('Live: '), link(short(p.live), p.live), ...(p.repo ? [sep(), run('Code: '), link(short(p.repo), p.repo)] : [])]),
     line([run('Technologies: ', { bold: true }), run(p.stack)]),
     ...p.bullets.map(bullet),
   ]),
@@ -103,7 +103,7 @@ li { margin-bottom: 0; }
 <p class="contact">${CV.links.map(a).join(' <span class="sep">|</span> ')}</p>
 <h2>Summary</h2><p>${esc(CV.summary)}</p>
 <h2>Education</h2>${CV.education.map((e) => head(e.head, e.date) + `<p><i>${esc(e.org)}</i></p>` + ul(e.bullets)).join('')}
-<h2>Projects</h2>${CV.projects.map((p) => head(p.head) + `<p>Live: <a href="${p.live}">${short(p.live)}</a> <span class="sep">|</span> Code: <a href="${p.repo}">${short(p.repo)}</a></p><p><b>Technologies:</b> ${esc(p.stack)}</p>` + ul(p.bullets)).join('')}
+<h2>Projects</h2>${CV.projects.map((p) => head(p.head) + `<p>Live: <a href="${p.live}">${short(p.live)}</a>${p.repo ? ` <span class="sep">|</span> Code: <a href="${p.repo}">${short(p.repo)}</a>` : ''}</p><p><b>Technologies:</b> ${esc(p.stack)}</p>` + ul(p.bullets)).join('')}
 <h2>Experience</h2>${CV.experience.map((e) => head(`${e.head}, ${e.org}`, e.date) + ul(e.bullets)).join('')}
 <h2>Skills</h2>${CV.skills.map(([k, v]) => `<p><b>${esc(k)}:</b> ${esc(v)}</p>`).join('')}
 <h2>Additional Information</h2>${CV.extra.map(([k, v]) => `<p><b>${esc(k)}:</b> ${esc(v)}</p>`).join('')}

@@ -28,7 +28,7 @@
       "url": "https://github.com/mahmoudsharks09"
     }
   ],
-  "summary": "Software Engineering student at AASTMT (expected 2028) who builds and deploys web applications with React, TypeScript and JavaScript. Completed a six-month Full Stack course at AMIT and a professional internship at GASCO. Seeking a software engineering internship or part-time role in frontend, backend or full-stack development.",
+  "summary": "Software Engineering student at AASTMT (expected 2028) who builds and deploys full-stack web apps with React, TypeScript, Node.js and MongoDB. Completed a six-month Full Stack course at AMIT and an internship at GASCO. Seeking a software engineering internship or part-time role in frontend, backend or full-stack development.",
   "education": [
     {
       "head": "Bachelor of Science in Software Engineering",
@@ -67,13 +67,23 @@
   ],
   "projects": [
     {
+      "head": "Shella: group outing planner for Cairo",
+      "stack": "Node.js, Express, MongoDB (Mongoose), JavaScript, PWA, Web Push, TensorFlow.js, Playwright, Vercel",
+      "live": "https://shella-cairo.vercel.app",
+      "bullets": [
+        "Built and deployed a bilingual English/Arabic (RTL) full-stack app where friend groups join with one code, set their own budgets and vote on a plan from 172 Cairo places and real venues found through OpenStreetMap.",
+        "Developed group chat with polls, reactions and push notifications, plus bill splitting, ratings, photo memories and an owner dashboard.",
+        "Secured it with two-step login, rate limiting, field-level encryption and content moderation (TensorFlow.js image check, reports); covered it with 412 automated end-to-end checks (Playwright)."
+      ]
+    },
+    {
       "head": "Ahwa: café finder for students in Cairo",
       "stack": "React 19, TypeScript, Vite, Leaflet, React Router, OpenStreetMap",
       "live": "https://ahwa-cairo.vercel.app",
       "repo": "https://github.com/mahmoudsharks09/ahwa",
       "bullets": [
-        "Built a bilingual English/Arabic web app with full right-to-left (RTL) support that maps 341 real Cairo cafés from OpenStreetMap data.",
-        "Calculated live open-now status in Cairo time and added filters for Wi-Fi, outdoor seating, air conditioning, no smoking and area.",
+        "Built a bilingual English/Arabic (RTL) web app that maps 341 real Cairo cafés from OpenStreetMap data.",
+        "Calculated live open-now status in Cairo time, with filters for Wi-Fi, outdoor seating, air-con, smoking and area.",
         "Implemented saved cafés and personal notes, and deployed the app on Vercel."
       ]
     },
@@ -83,18 +93,9 @@
       "live": "https://gomart-amit.vercel.app",
       "repo": "https://github.com/mahmoudsharks09/GoMart",
       "bullets": [
-        "Developed a storefront with a product catalog, category browsing, search, filters, product detail pages and a cart with live totals.",
+        "Developed a storefront with categories, search, filters, product pages and a cart with live totals.",
         "Implemented login with role-based access control (Admin, Moderator, Tester) and an admin dashboard with create, read, update and delete (CRUD) for products.",
         "Integrated product data from the DummyJSON REST API and deployed on Vercel."
-      ]
-    },
-    {
-      "head": "Serenite: one-page storefront concept",
-      "stack": "HTML, CSS, JavaScript",
-      "live": "https://serenite-website-seven.vercel.app",
-      "repo": "https://github.com/mahmoudsharks09/serenite-website",
-      "bullets": [
-        "Hand-coded a responsive single-page shop with a product collection and add-to-bag flow in plain HTML, CSS and JavaScript, with no framework or build step."
       ]
     }
   ],
@@ -105,19 +106,19 @@
     ],
     [
       "Frameworks & Libraries",
-      "React, Node.js, React Router, Bootstrap, Leaflet"
+      "React, Node.js, Express, React Router, Bootstrap, Leaflet"
     ],
     [
       "Tools",
-      "Git, GitHub, Vite, Vercel, VS Code, IntelliJ IDEA, Figma"
+      "Git, GitHub, Vite, Vercel, Playwright, VS Code, IntelliJ IDEA, Figma"
     ],
     [
       "Databases",
-      "MySQL"
+      "MySQL, MongoDB (Mongoose)"
     ],
     [
       "Concepts",
-      "REST APIs, responsive web design, internationalization (RTL), role-based access control"
+      "REST APIs, responsive design, internationalization (RTL), PWAs, authentication, role-based access control, end-to-end testing"
     ]
   ],
   "extra": [

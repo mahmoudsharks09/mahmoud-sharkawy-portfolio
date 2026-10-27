@@ -16,12 +16,34 @@ export type Project = {
   highlights: string[]
   stack: string[]
   live: string
-  repo: string
+  repo?: string // left out for private code
   image: string
   note?: string
 }
 
 export const PROJECTS: Project[] = [
+  {
+    id: 'shella',
+    name: 'Shella',
+    year: '2026',
+    kind: 'Full-stack app',
+    summary: 'Plan a khoroga with your group of friends in Cairo.',
+    description:
+      'A bilingual full-stack app for planning outings with friends. The group joins with one code, everyone sets their own budget, and Shella suggests places everyone can afford. The group votes, chats and gets directions to the exact café or venue, then rates the day and splits the bill.',
+    highlights: [
+      'Join with one invite code or QR; everyone sets their own budget',
+      '172 Cairo places, plus real venues from OpenStreetMap',
+      'Group chat with polls, reactions and push notifications',
+      'Plan voting, bill splitting, ratings and photo memories',
+      'Two-step login, encrypted chat and content moderation',
+      'Full English and Arabic, installable as an app (PWA)',
+      '412 automated end-to-end checks with Playwright',
+    ],
+    stack: ['Node.js', 'Express', 'MongoDB', 'JavaScript', 'PWA', 'Web Push', 'TensorFlow.js', 'Playwright'],
+    live: 'https://shella-cairo.vercel.app',
+    image: '/work/shella.jpg',
+    note: 'The code is private; the live app is open to try.',
+  },
   {
     id: 'ahwa',
     name: 'Ahwa',
@@ -85,9 +107,9 @@ export const PROJECTS: Project[] = [
 
 export const SKILLS: [string, string[]][] = [
   ['Languages', ['Java', 'Python', 'C / C++', 'JavaScript', 'TypeScript', 'HTML / CSS']],
-  ['Frameworks', ['React', 'Node.js']],
-  ['Tools', ['Git / GitHub', 'VS Code', 'IntelliJ', 'Figma', 'Vite', 'Vercel']],
-  ['Data', ['MySQL']],
+  ['Frameworks', ['React', 'Node.js', 'Express']],
+  ['Tools', ['Git / GitHub', 'VS Code', 'IntelliJ', 'Figma', 'Vite', 'Vercel', 'Playwright']],
+  ['Data', ['MySQL', 'MongoDB']],
 ]
 
 export const EXPERIENCE: [string, string, string][] = [

@@ -98,7 +98,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         {project.note && <p className="project-note">{project.note}</p>}
         <div className="project-links">
           <a className="btn btn-solid" href={project.live} target="_blank" rel="noreferrer">Live site <Arrow /></a>
-          <a className="btn" href={project.repo} target="_blank" rel="noreferrer">Code <Arrow /></a>
+          {project.repo && <a className="btn" href={project.repo} target="_blank" rel="noreferrer">Code <Arrow /></a>}
         </div>
       </div>
     </article>
