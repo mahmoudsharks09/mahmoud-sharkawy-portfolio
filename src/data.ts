@@ -18,6 +18,7 @@ export type Project = {
   live: string
   repo?: string // left out for private code
   image: string
+  alt?: string // describes the image when it isn't the landing page
   note?: string
 }
 
@@ -42,6 +43,7 @@ export const PROJECTS: Project[] = [
     stack: ['Node.js', 'Express', 'MongoDB', 'JavaScript', 'PWA', 'Web Push', 'TensorFlow.js', 'Playwright'],
     live: 'https://shella-cairo.vercel.app',
     image: '/work/shella.jpg',
+    alt: 'Shella logo and idea next to three phone screens: khoroga ideas, the group plan with votes, and the group chat with a poll',
     note: 'The code is private; the live app is open to try.',
   },
   {
